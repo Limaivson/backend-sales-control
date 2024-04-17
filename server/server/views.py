@@ -1,4 +1,4 @@
-from .data_base_empresa.data_base.consultas import Consultas
+from .data_base_sales_control.data_base.consultas import Consultas
 from django.http import JsonResponse
 
 consultas = Consultas()
