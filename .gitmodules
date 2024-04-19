@@ -1,3 +1,6 @@
 [submodule "server/server/data_base_sales_control"]
 	path = server/server/data_base_sales_control
 	url = https://github.com/Limaivson/data_base_sales_control
+[submodule "server/data_base_sales_control"]
+	path = server/data_base_sales_control
+	url = https://github.com/Limaivson/data_base_sales_control
