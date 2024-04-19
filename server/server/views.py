@@ -88,7 +88,6 @@ def listar_clientes_pagos(request):
                 'funcionario': cliente.Funcionario.nome if cliente.Funcionario.nome else ''
             }
             clientes_dicts.append(cliente_dict)
-            print(clientes_dicts)
         return JsonResponse({'status': 'success', 'clientes': clientes_dicts})
     else:
         return JsonResponse({'status': 'error'})
