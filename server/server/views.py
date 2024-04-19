@@ -17,7 +17,8 @@ def inserir_funcionario(request):
 def listar_funcionarios(request):
     response = consultas.listar_funcionarios()
     if response:
-        return JsonResponse({'status': 'success', 'funcionarios': response})
+        funcionarios_dicts = [{'nome': func.nome, 'cargo': func.cargo} for func in response]
+        return JsonResponse({'status': 'success', 'funcionarios': funcionarios_dicts})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -55,7 +56,8 @@ def buscar_funcionario_por_nome(request):
     nome = request.POST.get('nome')
     response = consultas.buscar_funcionario_por_nome(nome)
     if response:
-        return JsonResponse({'status': 'success', 'funcionario': response})
+        funcionarios_dicts = [{'nome': func.nome, 'cargo': func.cargo} for func in response]
+        return JsonResponse({'status': 'success', 'funcionario': funcionarios_dicts})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -63,7 +65,31 @@ def buscar_funcionario_por_nome(request):
 def listar_clientes(request):
     response = consultas.listar_clientes()
     if response:
-        return JsonResponse({'status': 'success', 'clientes': response})
+        clientes_dicts = [{'id': cliente.id_cliente, 'nome': cliente.nome, 'telefone': cliente.telefone,
+                           'endereco': cliente.endereco} for cliente in response]
+        return JsonResponse({'status': 'success', 'clientes': clientes_dicts})
+    else:
+        return JsonResponse({'status': 'error'})
+
+
+def listar_clientes_pagos(request):
+    response = consultas.listar_clientes_pagos()
+    if response:
+        clientes_dicts = []
+        for cliente in response:
+            cliente_dict = {
+                'id': cliente.id_cliente,
+                'nome': cliente.nome,
+                'telefone': cliente.telefone,
+                'endereco': cliente.endereco,
+                'valor': cliente.Pagamento.valor if cliente.Pagamento.valor else '',
+                'tipo_pagamento': cliente.Pagamento.tipo_pagamento if cliente.Pagamento.tipo_pagamento else '',
+                'data': cliente.Pagamento.data if cliente.Pagamento.data else '',
+                'funcionario': cliente.Funcionario.nome if cliente.Funcionario.nome else ''
+            }
+            clientes_dicts.append(cliente_dict)
+            print(clientes_dicts)
+        return JsonResponse({'status': 'success', 'clientes': clientes_dicts})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -113,7 +139,9 @@ def buscar_cliente_por_nome(request):
     nome = request.POST.get('nome')
     response = consultas.buscar_cliente_por_nome(nome)
     if response:
-        return JsonResponse({'status': 'success', 'cliente': response})
+        cliente_dict = [{'nome': cliente.nome, 'telefone': cliente.telefone, 'endereco': cliente.endereco}
+                        for cliente in response]
+        return JsonResponse({'status': 'success', 'cliente': cliente_dict})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -122,7 +150,9 @@ def buscar_cliente_por_endereco(request):
     endereco = request.POST.get('endereco')
     response = consultas.buscar_cliente_por_endereco(endereco)
     if response:
-        return JsonResponse({'status': 'success', 'cliente': response})
+        cliente_dict = [{'nome': cliente.nome, 'telefone': cliente.telefone, 'endereco': cliente.endereco}
+                        for cliente in response]
+        return JsonResponse({'status': 'success', 'cliente': cliente_dict})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -130,7 +160,11 @@ def buscar_cliente_por_endereco(request):
 def listar_pagamentos(request):
     response = consultas.listar_pagamentos()
     if response:
-        return JsonResponse({'status': 'success', 'pagamentos': response})
+        pagamentos_dict = [{'id_cliente': pagamento.id_cliente, 'id_funcionario': pagamento.id_funcionario,
+                            'valor': pagamento.valor, 'tipo_pagamento': pagamento.tipo_pagamento,
+                            'data': pagamento.data}
+                           for pagamento in response]
+        return JsonResponse({'status': 'success', 'pagamentos': pagamentos_dict})
     else:
         return JsonResponse({'status': 'error'})
 
@@ -175,6 +209,10 @@ def buscar_pagamento(request):
     id_pagamento = request.POST.get('id_pagamento')
     response = consultas.buscar_pagamento(id_pagamento)
     if response:
-        return JsonResponse({'status': 'success', 'pagamento': response})
+        pagamentos_dict = [{'id_cliente': pagamento.id_cliente, 'id_funcionario': pagamento.id_funcionario,
+                            'valor': pagamento.valor, 'tipo_pagamento': pagamento.tipo_pagamento,
+                            'data': pagamento.data}
+                           for pagamento in response]
+        return JsonResponse({'status': 'success', 'pagamento': pagamentos_dict})
     else:
         return JsonResponse({'status': 'error'})
