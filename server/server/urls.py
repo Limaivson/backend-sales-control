@@ -11,6 +11,7 @@ urlpatterns = [
     path('buscar-funcionario/', buscar_funcionario, name='buscar_funcionario'),
     path('buscar-funcionario-nome/', buscar_funcionario_por_nome, name='buscar_funcionario_por_nome'),
     path('listar-clientes/', listar_clientes, name='listar_clientes'),
+    path('listar-clientes-pagos/', listar_clientes_pagos, name='listar_clientes_pagos'),
     path('inserir-cliente/', inserir_cliente, name='inserir_cliente'),
     path('deletar-cliente/', deletar_cliente, name='deletar_cliente'),
     path('atualizar-cliente/', atualizar_cliente, name='atualizar_cliente'),
